@@ -36,6 +36,7 @@ test {
     doFirst {
         File implementation = createServiceLoaderFile()
         implementation << "com.taf.utils.reportportal.ReportPortalListener"
+        systemProperties System.getProperties()
     }
     useTestNG() {
         testLogging {

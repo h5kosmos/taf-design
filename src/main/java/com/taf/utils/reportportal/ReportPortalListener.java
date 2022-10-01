@@ -24,5 +24,4 @@ public class ReportPortalListener extends ReportPortalTestNGListener {
         log.error("{} failed", testResult.getName());
         super.onTestFailure(testResult);
     }
-
 }
