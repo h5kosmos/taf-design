@@ -1,11 +1,15 @@
 name: Java CI
 
-on: [ push ]
+on:
+  push:
+    branches: [ "develop" ]
+  pull_request:
+    branches: [ "develop" ]
 
 jobs:
   build-gradle-project:
     runs-on: ubuntu-latest
-
+    environment: base
     steps:
       - name: Set up JDK 17
         uses: actions/setup-java@v3
@@ -17,4 +21,4 @@ jobs:
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
       - name: Test
-        run: ./gradlew test -Drp.endpoint=${{env.RP_ENDPOINT}} -Drp.project=${{env.RP_PROJECT}} -Drp.uuid=${{env.RP_UUID}} -Drp.launch=${{env.RP_LAUNCH}}
+        run: ./gradlew test -Drp.endpoint=${{ secrets.RP_ENDPOINT }} -Drp.project=${{ secrets.RP_PROJECT }} -Drp.uuid=${{ secrets.RP_UUID }} -Drp.launch=${{ secrets.RP_LAUNCH }}
