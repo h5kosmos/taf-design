@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id "io.freefair.lombok" version "6.5.1"
 }
 
 group 'com.taf'
@@ -13,6 +14,8 @@ ext {
     javaVersion = '17'
     testNgVersion = '7.6.1'
     log4jVersion = '2.19.0'
+    reportPortalAgentVersion = '5.1.3'
+    reportPortalLoggerVersion = '5.1.5'
 }
 
 compileJava {
@@ -24,10 +27,16 @@ compileJava {
 dependencies {
     implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: log4jVersion
     implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: log4jVersion
+    implementation group: 'com.epam.reportportal', name: 'agent-java-testng', version: reportPortalAgentVersion
+    implementation group: 'com.epam.reportportal', name: 'logger-java-log4j', version: reportPortalLoggerVersion
     implementation group: 'org.testng', name: 'testng', version: testNgVersion
 }
 
 test {
+    doFirst {
+        File implementation = createServiceLoaderFile()
+        implementation << "com.taf.utils.reportportal.ReportPortalListener"
+    }
     useTestNG() {
         testLogging {
             events "failed", "standardError"
@@ -36,4 +45,13 @@ test {
         useDefaultListeners = false
         suites("src/test/resources/suites/suite.xml")
     }
+}
+
+def createServiceLoaderFile() {
+    File outputDirectory = file(sourceSets.main.output.resourcesDir.absolutePath + "/META-INF/services")
+    outputDirectory.mkdirs()
+    File implementation = file(outputDirectory.absolutePath + "/org.testng.ITestNGListener")
+    implementation.delete()
+    implementation.createNewFile()
+    return implementation
 }
