@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration packages="com.epam.ta.reportportal.log4j.appender" status="WARN">
+    <Appenders>
+        <Console name="ConsoleAppender" target="SYSTEM_OUT">
+            <PatternLayout
+                    pattern="[%d{HH:mm:ss}] %-5p [%tid] (%F:%L) - %m%n"/>
+        </Console>
+    </Appenders>
+    <Loggers>
+        <Logger name="org.apache.http" level="WARN"/>
+        <Root level="DEBUG">
+            <AppenderRef ref="ConsoleAppender" level="INFO"/>
+        </Root>
+    </Loggers>
+</Configuration>

@@ -12,6 +12,7 @@ ext {
     defaultEncoding = 'UTF-8'
     javaVersion = '17'
     testNgVersion = '7.6.1'
+    log4jVersion = '2.19.0'
 }
 
 compileJava {
@@ -21,11 +22,18 @@ compileJava {
 }
 
 dependencies {
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: log4jVersion
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: log4jVersion
     implementation group: 'org.testng', name: 'testng', version: testNgVersion
 }
 
 test {
     useTestNG() {
-
+        testLogging {
+            events "failed", "standardError"
+            exceptionFormat "full"
+        }
+        useDefaultListeners = false
+        suites("src/test/resources/suites/suite.xml")
     }
 }
