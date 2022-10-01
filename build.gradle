@@ -1,0 +1,31 @@
+plugins {
+    id 'java'
+}
+
+group 'com.taf'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+ext {
+    defaultEncoding = 'UTF-8'
+    javaVersion = '17'
+    testNgVersion = '7.6.1'
+}
+
+compileJava {
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+    options.encoding = defaultEncoding
+}
+
+dependencies {
+    implementation group: 'org.testng', name: 'testng', version: testNgVersion
+}
+
+test {
+    useTestNG() {
+
+    }
+}
