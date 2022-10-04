@@ -17,6 +17,7 @@ ext {
     log4jVersion = '2.19.0'
     reportPortalAgentVersion = '5.1.3'
     reportPortalLoggerVersion = '5.1.5'
+    springBootVersion = '2.7.4'
 }
 
 compileJava {
@@ -31,6 +32,9 @@ dependencies {
     implementation group: 'com.epam.reportportal', name: 'agent-java-testng', version: reportPortalAgentVersion
     implementation group: 'com.epam.reportportal', name: 'logger-java-log4j', version: reportPortalLoggerVersion
     implementation group: 'org.testng', name: 'testng', version: testNgVersion
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter', version: springBootVersion
+    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springBootVersion,
+            { exclude group: 'com.vaadin.external.google', module: 'android-json' }
 }
 
 test {
