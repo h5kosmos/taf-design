@@ -18,6 +18,8 @@ ext {
     reportPortalAgentVersion = '5.1.3'
     reportPortalLoggerVersion = '5.1.5'
     springBootVersion = '2.7.4'
+    selenideVersion = '6.8.1'
+    slf4jSimple = '2.0.1'
 }
 
 compileJava {
@@ -33,8 +35,10 @@ dependencies {
     implementation group: 'com.epam.reportportal', name: 'logger-java-log4j', version: reportPortalLoggerVersion
     implementation group: 'org.testng', name: 'testng', version: testNgVersion
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter', version: springBootVersion
-    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springBootVersion,
-            { exclude group: 'com.vaadin.external.google', module: 'android-json' }
+    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springBootVersion
+    implementation group: 'com.codeborne', name: 'selenide', version: selenideVersion
+    implementation group: 'com.codeborne', name: 'selenide-testng', version: selenideVersion
+    testRuntimeOnly group: 'org.slf4j', name:'slf4j-simple', version: slf4jSimple
 }
 
 test {
