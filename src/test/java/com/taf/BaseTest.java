@@ -1,5 +1,7 @@
 package com.taf;
 
+import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.WebDriverRunner;
 import com.codeborne.selenide.testng.TextReport;
 import com.taf.core.DriverManager;
 import lombok.extern.slf4j.Slf4j;
@@ -12,13 +14,13 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.testng.annotations.*;
 
+import static com.codeborne.selenide.Selenide.open;
+
 @Slf4j
 @WebAppConfiguration
 @SpringBootTest(classes = TestApplication.class)
 @Listeners({TextReport.class})
 public class BaseTest extends AbstractTestNGSpringContextTests {
-    private WebDriver driver;
-
     @Autowired
     private DriverManager driverManager;
 
@@ -27,19 +29,17 @@ public class BaseTest extends AbstractTestNGSpringContextTests {
 
     @BeforeMethod(alwaysRun = true)
     public void setUp() {
-        driver = driverManager.initDriver();
+        WebDriverRunner.setWebDriver(driverManager.initDriver());
     }
 
     @AfterMethod(alwaysRun = true)
     public void tearDown() {
-        if (driver != null) {
-            driver.quit();
-        }
+        Selenide.closeWebDriver();
     }
 
     @Test(description = "Success test")
     public void successTest() {
-        driver.get("https://www.duckduckgo.com");
+        open("https://www.duckduckgo.com");
         log.info("testProperty: " + testProperty);
     }
 }
