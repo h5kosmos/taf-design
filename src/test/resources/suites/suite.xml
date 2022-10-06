@@ -1,0 +1,8 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Project Relevance Tests">
+    <test name="Check annotations for all tests">
+        <classes>
+            <class name="com.taf.BaseTest" />
+        </classes>
+    </test>
+</suite>

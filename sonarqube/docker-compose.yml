@@ -1,0 +1,7 @@
+  version: "3"
+  services:
+    SonarQube:
+      image: sonarqube:9.6.1-community
+      platform: linux/amd64
+      ports:
+        - 9000:9000
