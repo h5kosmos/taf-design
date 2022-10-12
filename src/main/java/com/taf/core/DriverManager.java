@@ -10,6 +10,8 @@ import org.openqa.selenium.safari.SafariDriver;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import static com.codeborne.selenide.Configuration.*;
+
 @Service
 @Slf4j
 public class DriverManager {
@@ -17,6 +19,14 @@ public class DriverManager {
     @Value("${selenide.browser}")
     private String browser;
 
+    @Value("${fail.test.timeout}")
+    private Long failTestTimeout;
+
+    @Value("${page.load.timeout}")
+    private Long loadTimeout;
+
+    @Value("${page.load.strategy}")
+    private String loadStrategy;
 
     public WebDriver initDriver() {
         log.info(browser);
@@ -34,9 +44,9 @@ public class DriverManager {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--no-sandbox");
         options.addArguments("--headless");
-        options.addArguments("--disable-infobars");
-        options.addArguments("--disable-gpu");
-        options.addArguments("--disable-dev-shm-usage");
+        timeout = failTestTimeout;
+        pageLoadTimeout = loadTimeout;
+        pageLoadStrategy = loadStrategy;
 
         WebDriverManager.chromedriver().setup();
         return new ChromeDriver(options);

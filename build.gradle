@@ -2,14 +2,17 @@ plugins {
     id 'java'
     id "io.freefair.lombok" version "6.5.1"
     id "org.sonarqube" version "3.4.0.2513"
+    id "io.freefair.aspectj" version "6.5.1"
 }
 
 group 'com.taf'
 version '1.0-SNAPSHOT'
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
+
 ext {
     defaultEncoding = 'UTF-8'
     javaVersion = '17'
@@ -32,37 +35,28 @@ compileJava {
 dependencies {
     implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: log4jVersion
     implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: log4jVersion
-    implementation group: 'com.epam.reportportal', name: 'agent-java-testng', version: reportPortalAgentVersion
+    // implementation group: 'com.epam.reportportal', name: 'agent-java-testng', version: reportPortalAgentVersion
     implementation group: 'com.epam.reportportal', name: 'logger-java-log4j', version: reportPortalLoggerVersion
+    implementation group: 'com.epam.reportportal', name: 'agent-java-junit5', version: reportPortalLoggerVersion
+    implementation 'org.apache.logging.log4j:log4j-api:2.19.0'
+    implementation 'org.apache.logging.log4j:log4j-core:2.19.0'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter', version: springBootVersion
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springBootVersion
     implementation group: 'com.codeborne', name: 'selenide', version: selenideVersion
     implementation group: 'com.codeborne', name: 'selenide-testng', version: selenideVersion
-    testRuntimeOnly group: 'org.slf4j', name:'slf4j-simple', version: slf4jSimple
-    testImplementation group:'org.junit.jupiter', name:'junit-jupiter-api', version: junitVersion
-    testRuntimeOnly group:'org.junit.jupiter', name:'junit-jupiter-engine', version: junitVersion
-    implementation group:'org.junit.platform', name:'junit-platform-suite-engine', version: junitSuitesVersion
+    testRuntimeOnly group: 'org.slf4j', name: 'slf4j-simple', version: slf4jSimple
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: junitVersion
+    testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: junitVersion
+    implementation group: 'org.junit.platform', name: 'junit-platform-suite-engine', version: junitSuitesVersion
 }
 
 
 test {
     doFirst {
-        File implementation = createServiceLoaderFile()
-        implementation << "com.taf.utils.reportportal.ReportPortalListener"
         systemProperties System.getProperties()
     }
+    testLogging.showStandardStreams = true
     useJUnitPlatform()
-    dependsOn 'cleanTest'
-    testLogging {
-        events "passed", "skipped", "failed"
-    }
-}
-
-def createServiceLoaderFile() {
-    File outputDirectory = file(sourceSets.main.output.resourcesDir.absolutePath + "/META-INF/services")
-    outputDirectory.mkdirs()
-    File implementation = file(outputDirectory.absolutePath + "/org.testng.ITestNGListener")
-    implementation.delete()
-    implementation.createNewFile()
-    return implementation
+    systemProperty 'junit.jupiter.extensions.autodetection.enabled', true
+    //dependsOn 'cleanTest'
 }
