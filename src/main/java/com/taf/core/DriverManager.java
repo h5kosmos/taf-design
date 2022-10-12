@@ -44,6 +44,8 @@ public class DriverManager {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--no-sandbox");
         options.addArguments("--headless");
+        options.addArguments("--window-size=1920,1080");
+        options.addArguments("--start-maximized");
         timeout = failTestTimeout;
         pageLoadTimeout = loadTimeout;
         pageLoadStrategy = loadStrategy;
