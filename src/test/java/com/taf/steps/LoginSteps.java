@@ -3,15 +3,16 @@ package com.taf.steps;
 import com.codeborne.selenide.WebDriverRunner;
 import com.taf.core.DriverManager;
 import com.taf.steps.configurations.CucumberSpringConfiguration;
-import com.taf.pages.LaunchesPage;
 import com.taf.pages.LoginPage;
-import com.taf.pages.components.Navigation;
 import io.cucumber.java.en.When;
+import lombok.extern.log4j.Log4j2;
+import org.openqa.selenium.Dimension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import static com.codeborne.selenide.Selenide.open;
 
+@Log4j2
 public class LoginSteps extends CucumberSpringConfiguration {
 
     @Autowired
@@ -29,8 +30,10 @@ public class LoginSteps extends CucumberSpringConfiguration {
     @When("^User is on Home Page$")
     public void the_client_issues_GET_version() throws Throwable {
         WebDriverRunner.setWebDriver(driverManager.initDriver());
+        WebDriverRunner.getWebDriver().manage().window().setSize(new Dimension(1920,1080));
         open(url);
-        System.out.println(url);
+        log.info(url);
         loginPage.loginAsUser(email, password);
+
     }
 }

@@ -70,9 +70,7 @@ def cucumberOptions = [
         'src/test/resources']
 
 task cucumberCli(type:Test) {
-    doFirst {
-        systemProperties System.getProperties()
-    }
+    systemProperties System.getProperties()
     dependsOn assemble, testClasses
     doLast {
         javaexec {
