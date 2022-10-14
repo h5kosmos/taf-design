@@ -58,7 +58,9 @@ configurations {
         extendsFrom testImplementation
     }
 }
-def cucumberThreadsOption = ['--threads', '10']
+def availableThreadCount = Runtime.runtime.availableProcessors().intdiv(2) ?: 1
+
+def cucumberThreadsOption = ['--threads', availableThreadCount.toString()]
 
 def cucumberOptions = [
         '--plugin', 'pretty',
