@@ -24,6 +24,7 @@ ext {
     slf4jSimple = '2.0.1'
     junitVersion = '5.8.1';
     junitSuitesVersion = '1.8.1'
+    cucumberVersion = '6.8.0'
 }
 
 compileJava {
@@ -35,21 +36,48 @@ compileJava {
 dependencies {
     implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: log4jVersion
     implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: log4jVersion
-    // implementation group: 'com.epam.reportportal', name: 'agent-java-testng', version: reportPortalAgentVersion
     implementation group: 'com.epam.reportportal', name: 'logger-java-log4j', version: reportPortalLoggerVersion
     implementation group: 'com.epam.reportportal', name: 'agent-java-junit5', version: reportPortalLoggerVersion
     implementation 'org.apache.logging.log4j:log4j-api:2.19.0'
     implementation 'org.apache.logging.log4j:log4j-core:2.19.0'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter', version: springBootVersion
-    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springBootVersion
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springBootVersion
     implementation group: 'com.codeborne', name: 'selenide', version: selenideVersion
     implementation group: 'com.codeborne', name: 'selenide-testng', version: selenideVersion
-    testRuntimeOnly group: 'org.slf4j', name: 'slf4j-simple', version: slf4jSimple
-    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: junitVersion
-    testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: junitVersion
+    implementation group: 'org.slf4j', name: 'slf4j-simple', version: slf4jSimple
+    implementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: junitVersion
+    implementation group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: junitVersion
     implementation group: 'org.junit.platform', name: 'junit-platform-suite-engine', version: junitSuitesVersion
+    implementation group: 'io.cucumber', name: 'cucumber-java', version: cucumberVersion
+    implementation group: 'io.cucumber', name: 'cucumber-junit', version: cucumberVersion
+    implementation group: 'io.cucumber', name: 'cucumber-spring', version: cucumberVersion
 }
 
+configurations {
+    cucumberRuntime {
+        extendsFrom testImplementation
+    }
+}
+def cucumberThreadsOption = ['--threads', '10']
+
+def cucumberOptions = [
+        '--plugin', 'pretty',
+        '--plugin', 'html:target/cucumber-report.html',
+        '--glue', 'com.taf.steps',
+        '--glue', 'com.taf.configurations',
+        'src/test/resources']
+
+task cucumberCli() {
+    dependsOn assemble, testClasses
+    doLast {
+        javaexec {
+            main = "io.cucumber.core.cli.Main"
+            classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
+            cucumberOptions.addAll(cucumberThreadsOption)
+            args = cucumberOptions
+        }
+    }
+}
 
 test {
     doFirst {
@@ -58,5 +86,4 @@ test {
     testLogging.showStandardStreams = true
     useJUnitPlatform()
     systemProperty 'junit.jupiter.extensions.autodetection.enabled', true
-    //dependsOn 'cleanTest'
 }
