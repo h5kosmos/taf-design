@@ -30,6 +30,7 @@ public class LoginSteps extends CucumberSpringConfiguration {
     public void the_client_issues_GET_version() throws Throwable {
         WebDriverRunner.setWebDriver(driverManager.initDriver());
         open(url);
+        System.out.println(url);
         loginPage.loginAsUser(email, password);
     }
 }
