@@ -20,4 +20,4 @@ jobs:
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
       - name: Test
-        run: ./gradlew cucumberCli -Drp.endpoint=${{ secrets.RP_ENDPOINT }} -Drp.project=${{ secrets.RP_PROJECT }} -Drp.uuid=${{ secrets.RP_UUID }} -Drp.launch=${{ secrets.RP_LAUNCH }} -Duser.login=${{ secrets.USER_LOGIN }} -Duser.PASSWORD=${{ secrets.USER_PASSWORD }}
+        run: ./gradlew test -Drp.endpoint=${{ secrets.RP_ENDPOINT }} -Drp.project=${{ secrets.RP_PROJECT }} -Drp.uuid=${{ secrets.RP_UUID }} -Drp.launch=${{ secrets.RP_LAUNCH }} -Duser.login=${{ secrets.USER_LOGIN }} -Duser.PASSWORD=${{ secrets.USER_PASSWORD }}
