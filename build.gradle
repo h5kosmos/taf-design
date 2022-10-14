@@ -56,7 +56,7 @@ configurations {
         extendsFrom testImplementation
     }
 }
-def availableThreadCount = Runtime.runtime.availableProcessors().intdiv(2,10) ?: 1
+def availableThreadCount = Runtime.runtime.availableProcessors().intdiv(2,10) ?: 5
 
 def cucumberThreadsOption = ['--threads', availableThreadCount]
 
@@ -67,11 +67,11 @@ def cucumberOptions = [
         '--glue', 'com.taf.configurations',
         'src/test/resources']
 
-task cucumberCli(type:Test) {
-    systemProperties System.getProperties()
+task cucumberCli {
     dependsOn assemble, testClasses
     doLast {
         javaexec {
+            systemProperties(System.getProperties())
             main = "io.cucumber.core.cli.Main"
             classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
             cucumberOptions.addAll(cucumberThreadsOption)
