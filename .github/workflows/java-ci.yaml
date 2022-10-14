@@ -7,11 +7,6 @@ jobs:
   build-gradle-project:
     runs-on: ubuntu-latest
     environment: base
-    strategy:
-      fail-fast: false
-      matrix:
-        ci_node_total: [ 8 ]
-        ci_node_index: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
     steps:
       - name: Set up JDK 17
         uses: actions/setup-java@v3
