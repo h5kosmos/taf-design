@@ -26,7 +26,6 @@ import java.util.stream.Stream;
 
 import static com.codeborne.selenide.Selenide.open;
 
-@Log4j2
 @SpringBootTest(classes = TestApplication.class)
 @ExtendWith(ReportPortalExtension.class)
 public class BaseTest {

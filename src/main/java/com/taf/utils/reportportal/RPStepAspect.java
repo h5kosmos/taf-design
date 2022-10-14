@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 /**
  * class to initiate logging for methods with annotation {@link com.epam.reportportal.annotations.Step} using SpringBootLoader
  */
-@Log4j2
+
 @Component
 public class RPStepAspect extends StepAspect {
 
@@ -19,7 +19,6 @@ public class RPStepAspect extends StepAspect {
     public void startNestedStep(JoinPoint joinPoint, Step step) {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         String name = StepNameUtils.getStepName(step, signature, joinPoint);
-        log.info(name);
         super.startNestedStep(joinPoint, step);
     }
 }

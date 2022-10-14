@@ -11,8 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import static com.codeborne.selenide.Selenide.open;
-
-@Log4j2
 public class LoginSteps extends CucumberSpringConfiguration {
 
     @Autowired
@@ -32,8 +30,6 @@ public class LoginSteps extends CucumberSpringConfiguration {
         WebDriverRunner.setWebDriver(driverManager.initDriver());
         WebDriverRunner.getWebDriver().manage().window().setSize(new Dimension(1920,1080));
         open(url);
-        log.info(url);
         loginPage.loginAsUser(email, password);
-
     }
 }
