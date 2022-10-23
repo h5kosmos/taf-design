@@ -5,7 +5,6 @@ import com.epam.tamentoring.bo.Product;
 import com.epam.tamentoring.bo.UserAccount;
 import com.taf.utils.ProductProvider;
 import com.taf.utils.UserProvider;
-import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,10 +13,8 @@ import org.testng.collections.CollectionUtils;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@Slf4j
 @SpringBootTest(classes = TestApplication.class)
 @ExtendWith(ReportPortalExtension.class)
-
 public class ShoppingCartTests {
 
     private final static int ONE_ITEM = 1;

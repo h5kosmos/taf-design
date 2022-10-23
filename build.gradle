@@ -25,6 +25,7 @@ ext {
     junitVersion = '5.8.1';
     junitSuitesVersion = '1.8.1'
     cucumberVersion = '6.8.0'
+    mockitoVersion = '4.8.1'
 }
 
 compileJava {
@@ -50,6 +51,7 @@ dependencies {
     implementation group: 'io.cucumber', name: 'cucumber-java', version: cucumberVersion
     implementation group: 'io.cucumber', name: 'cucumber-junit', version: cucumberVersion
     implementation group: 'io.cucumber', name: 'cucumber-spring', version: cucumberVersion
+    implementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: mockitoVersion
 }
 
 configurations {

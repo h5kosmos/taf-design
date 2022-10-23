@@ -22,4 +22,10 @@ public class UserProvider {
         ShoppingCart shoppingCart = new ShoppingCart(products);
         return new UserAccount(firstName, lastName, dateOfBirth, shoppingCart);
     }
+
+    public UserAccount getUserAccount(String firstName, String lastName,String dateOfBirth) {
+        List<Product> products = new ArrayList<>();
+        ShoppingCart shoppingCart = new ShoppingCart(products);
+        return new UserAccount(firstName, lastName, dateOfBirth, shoppingCart);
+    }
 }
