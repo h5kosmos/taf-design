@@ -9,7 +9,6 @@ import com.taf.pages.LoginPage;
 import com.taf.pages.components.Navigation;
 
 import com.taf.pojo.LaunchPojo;
-import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -17,7 +16,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 import org.junit.jupiter.params.provider.ArgumentsSource;
-import org.junit.jupiter.params.shadow.com.univocity.parsers.annotations.Copy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,7 +24,6 @@ import java.util.stream.Stream;
 
 import static com.codeborne.selenide.Selenide.open;
 
-@Log4j2
 @SpringBootTest(classes = TestApplication.class)
 @ExtendWith(ReportPortalExtension.class)
 public class BaseTest {
