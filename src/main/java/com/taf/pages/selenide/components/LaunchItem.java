@@ -1,4 +1,4 @@
-package com.taf.pages.components;
+package com.taf.pages.selenide.components;
 
 import com.codeborne.selenide.SelenideElement;
 import com.epam.reportportal.annotations.Step;

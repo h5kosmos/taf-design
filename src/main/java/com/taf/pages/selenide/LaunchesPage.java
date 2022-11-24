@@ -1,6 +1,6 @@
-package com.taf.pages;
+package com.taf.pages.selenide;
 
-import com.taf.pages.components.LaunchItem;
+import com.taf.pages.selenide.components.LaunchItem;
 import org.openqa.selenium.By;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;

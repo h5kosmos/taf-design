@@ -10,8 +10,6 @@ import org.openqa.selenium.safari.SafariDriver;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import static com.codeborne.selenide.Configuration.*;
-
 @Service
 @Slf4j
 public class DriverManager {
@@ -46,9 +44,6 @@ public class DriverManager {
         options.addArguments("--headless");
         options.addArguments("--window-size=1920,1080");
         options.addArguments("--start-maximized");
-        timeout = failTestTimeout;
-        pageLoadTimeout = loadTimeout;
-        pageLoadStrategy = loadStrategy;
 
         WebDriverManager.chromedriver().setup();
         return new ChromeDriver(options);

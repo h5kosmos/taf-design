@@ -1,4 +1,4 @@
-package com.taf.pages.components;
+package com.taf.pages.selenide.components;
 
 import com.epam.reportportal.annotations.Step;
 import org.openqa.selenium.By;

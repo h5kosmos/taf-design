@@ -1,13 +1,11 @@
 package com.taf;
 
-import com.codeborne.selenide.Selenide;
-import com.codeborne.selenide.WebDriverRunner;
 import com.epam.reportportal.junit5.ReportPortalExtension;
 import com.taf.core.DriverManager;
-import com.taf.pages.LaunchesPage;
-import com.taf.pages.LoginPage;
-import com.taf.pages.components.Navigation;
 
+import com.taf.pages.selenium.SLaunchesPage;
+import com.taf.pages.selenium.SLoginPage;
+import com.taf.pages.selenium.components.SNavigation;
 import com.taf.pojo.LaunchPojo;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,13 +14,16 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 import org.junit.jupiter.params.provider.ArgumentsSource;
+import org.openqa.selenium.WebDriver;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.Duration;
 import java.util.stream.Stream;
 
-import static com.codeborne.selenide.Selenide.open;
+import static java.time.temporal.ChronoUnit.SECONDS;
 
 @SpringBootTest(classes = TestApplication.class)
 @ExtendWith(ReportPortalExtension.class)
@@ -30,11 +31,11 @@ public class BaseTest {
     @Autowired
     private DriverManager driverManager;
     @Autowired
-    private LoginPage loginPage;
+    private ObjectProvider<SLoginPage> loginPageProvider;
     @Autowired
-    private Navigation navigation;
+    private ObjectProvider<SNavigation> navigationProvider;
     @Autowired
-    private LaunchesPage launchesPage;
+    private ObjectProvider<SLaunchesPage> launchesPageProvider;
     @Value("${app.url}")
     private String url;
     @Value("${user.login}")
@@ -42,24 +43,21 @@ public class BaseTest {
     @Value("${user.password}")
     private String password;
 
+    private WebDriver driver;
+
     @BeforeEach
     public void setUp() {
         System.out.println("base-class-before-each");
-        WebDriverRunner.setWebDriver(driverManager.initDriver());
-        open(url);
-        loginPage.loginAsUser(email, password);
-        navigation.openLaunches();
+        driver = driverManager.initDriver();
+        driver.get(url);
+        driver.manage().timeouts().implicitlyWait(Duration.of(10, SECONDS));
+        getLoginPage().loginAsUser(email, password);
+        getNavigation().openLaunches();
     }
 
     @AfterEach
     public void tearDown() {
-        Selenide.closeWebDriver();
-    }
-
-    @Test
-    @DisplayName("Success test")
-    public void successTest() {
-
+        driver.close();
     }
 
     static class LaunchesProvider implements ArgumentsProvider {
@@ -83,7 +81,7 @@ public class BaseTest {
     @ParameterizedTest
     @ArgumentsSource(LaunchesProvider.class)
     void testLaunchesData(LaunchPojo launch) {
-        launchesPage.getLaunchItemByID(launch.getId())
+        getLaunchesPage().getLaunchItemByID(launch.getId())
                 .checkTotalCount(launch.getTotal())
                 .checkPassedCount(launch.getPassed())
                 .checkFailedCount(launch.getFailed())
@@ -92,5 +90,17 @@ public class BaseTest {
                 .checkAutoBugCount(launch.getAutoBugs())
                 .checkSystemIssueCount(launch.getSystemIssues())
                 .checkInvestigateCount(launch.getToInvestigate());
+    }
+
+    private SLoginPage getLoginPage() {
+        return loginPageProvider.getObject(driver);
+    }
+
+    private SNavigation getNavigation() {
+        return navigationProvider.getObject(driver);
+    }
+
+    private SLaunchesPage getLaunchesPage() {
+        return launchesPageProvider.getObject(driver);
     }
 }
