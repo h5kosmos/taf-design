@@ -20,7 +20,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.Duration;
 import java.util.stream.Stream;
+
+import static java.time.temporal.ChronoUnit.SECONDS;
 
 @SpringBootTest(classes = TestApplication.class)
 @ExtendWith(ReportPortalExtension.class)
@@ -47,6 +50,7 @@ public class BaseTest {
         System.out.println("base-class-before-each");
         driver = driverManager.initDriver();
         driver.get(url);
+        driver.manage().timeouts().implicitlyWait(Duration.of(10, SECONDS));
         getLoginPage().loginAsUser(email, password);
         getNavigation().openLaunches();
     }

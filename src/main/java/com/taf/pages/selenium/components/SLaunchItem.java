@@ -5,7 +5,6 @@ import lombok.Getter;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.pagefactory.ByChained;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -35,53 +34,57 @@ public class SLaunchItem {
 
     @Step("Check total count: {count}")
     public SLaunchItem checkTotalCount(int count) {
-        checkCountValue(getRoot().findElement(totalCount), count);
+        checkCountValue(totalCount, count);
         return this;
     }
 
     @Step("Check passed count: {count}")
     public SLaunchItem checkPassedCount(int count) {
-        checkCountValue(getRoot().findElement(passedCount), count);
+        checkCountValue(passedCount, count);
         return this;
     }
 
     @Step("Check failed count: {count}")
     public SLaunchItem checkFailedCount(int count) {
-        checkCountValue(getRoot().findElement(failedCount), count);
+        checkCountValue(failedCount, count);
         return this;
     }
 
     @Step("Check skipped count: {count}")
     public SLaunchItem checkSkippedCount(int count) {
-        checkCountValue(getRoot().findElement(skippedCount), count);
+        checkCountValue(skippedCount, count);
         return this;
     }
 
     @Step("Check product bug count: {count}")
     public SLaunchItem checkProductBugCount(int count) {
-        checkCountValue(getRoot().findElement(productBugCount), count);
+        checkCountValue(productBugCount, count);
         return this;
     }
 
     @Step("Check auto bug count: {count}")
     public SLaunchItem checkAutoBugCount(int count) {
-        checkCountValue(getRoot().findElement(autoBugCount), count);
+        checkCountValue(autoBugCount, count);
         return this;
     }
 
     @Step("Check system issue count: {count}")
     public SLaunchItem checkSystemIssueCount(int count) {
-        checkCountValue(getRoot().findElement(systemIssueCount), count);
+        checkCountValue(systemIssueCount, count);
         return this;
     }
 
     @Step("Check investigate count: {count}")
     public SLaunchItem checkInvestigateCount(int count) {
-        checkCountValue(getRoot().findElement(investigateCount), count);
+        checkCountValue(investigateCount, count);
         return this;
     }
 
-    private void checkCountValue(WebElement element, int value) {
-        Assertions.assertEquals(Integer.valueOf(element.getText()), value);
+    private void checkCountValue(By locator, int value) {
+        if (value == 0) {
+            Assertions.assertTrue(getRoot().findElements(locator).isEmpty(), "Element shouldn't be on the page.");
+        } else {
+            Assertions.assertEquals(Integer.valueOf(getRoot().findElement(locator).getText()), value);
+        }
     }
 }
