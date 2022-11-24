@@ -2,9 +2,9 @@ package com.taf.steps;
 
 import com.taf.pojo.LaunchPojo;
 import com.taf.steps.configurations.CucumberSpringConfiguration;
-import com.taf.pages.LaunchesPage;
-import com.taf.pages.LoginPage;
-import com.taf.pages.components.Navigation;
+import com.taf.pages.selenide.LaunchesPage;
+import com.taf.pages.selenide.LoginPage;
+import com.taf.pages.selenide.components.Navigation;
 import io.cucumber.java.DataTableType;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.When;
